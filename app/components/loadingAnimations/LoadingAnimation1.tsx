@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-export default function LoadingAnimation1() {
+interface LoadingAnimationProps {
+    onFinish: () => void;
+}
+
+export default function LoadingAnimation1({ onFinish }: LoadingAnimationProps) {
     const cards = 10;
     const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
-    const [isVisible, setIsVisible] = useState(true); // 👈 kontrol visibilitas komponen
 
     useLayoutEffect(() => {
         if (!cardRefs.current) return;
@@ -14,28 +17,26 @@ export default function LoadingAnimation1() {
         gsap.to(cardRefs.current, {
             y: -1000,
             autoAlpha: 1,
-            ease: 'back.in(1.7)',
+            ease: 'power1.out',
             duration: 0.5,
             stagger: {
-                each: 0.08,
+                each: 0.045,
             },
             onComplete: () => {
-                setIsVisible(false);
+                onFinish();
             },
         });
-    }, []);
-
-    if (!isVisible) return null; // 👈 jika tidak visible, jangan render apa pun
+    }, [onFinish]);
 
     return (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-screen fixed inset-0 z-50 flex items-center justify-center bg-transparent pointer-events-none">
             {Array.from({ length: cards }).map((_, index) => (
                 <div
                     key={index}
                     ref={(el) => {
                         cardRefs.current[index] = el;
                     }}
-                    className="bg-white h-screen w-[10%]"
+                    className="bg-black h-screen w-[10%]"
                 />
             ))}
         </div>

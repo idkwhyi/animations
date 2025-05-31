@@ -27,8 +27,8 @@ export default function HeadingTextAnimation() {
                 ease: 'none',
                 scrollTrigger: {
                     trigger: headingRef.current,
-                    start: 'top bottom',
-                    end: 'top top+=20', 
+                    start: 'bottom bottom',
+                    end: 'top center+=40', 
                     scrub: true,
                     // markers: true,
                 },
@@ -39,7 +39,7 @@ export default function HeadingTextAnimation() {
     return (
         <h1
             ref={headingRef}
-            className="fixed bottom-0 left-1/2 -translate-x-1/2 text-red-400 font-bold text-[10vw] font-anton z-50 pointer-events-none"
+            className="fixed bottom-0 left-1/2 -translate-x-1/2 text-[#dd2d4a] font-bold text-[16vw] leading-none font-anton z-50 pointer-events-none"
         >
             Animations
         </h1>

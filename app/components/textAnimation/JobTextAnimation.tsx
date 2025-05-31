@@ -45,14 +45,14 @@ export default function JobTextAnimation() {
             transformOrigin: 'center center',
             ease: 'none',
             opacity: 0,
-            rotate: -15,
+            rotate: -10,
             scrollTrigger: {
                 trigger: document.body,
                 start: 'top top',
                 end: '+=10vh', // Animation completes within first viewport
                 scrub: 1,
                 invalidateOnRefresh: true,
-                markers: true,
+                markers: false,
                 onRefresh: () => {
                     // Recalculate positions on refresh
                     gsap.set(currentHeading, {
@@ -83,7 +83,7 @@ export default function JobTextAnimation() {
             <div
                 ref={jobRef}
                 className={`
-                    fixed top-[10%] left-[20%] -translate-x-1/2 -translate-y-1/2
+                    fixed top-[10vh] left-[20vw] -translate-x-1/2 -translate-y-1/2
                     text-white font-bold font-sans z-50 pointer-events-none
                     flex items-center justify-center text-center
                     ${isMobile 

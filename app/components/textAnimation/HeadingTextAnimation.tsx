@@ -94,7 +94,7 @@ export default function HeadingTextAnimation() {
                     perspective: '1000px'
                 }}
             >
-                Matthew
+                MATTHEW
             </div>
         </>
     );

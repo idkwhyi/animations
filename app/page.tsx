@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import Navbar from './components/Navbar';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LoadingAnimation1 from './components/loadingAnimations/LoadingAnimation1';
 import HeadingTextAnimation from './components/textAnimation/HeadingTextAnimation';
+import JobTextAnimation from './components/textAnimation/JobTextAnimation';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -60,12 +62,15 @@ export default function Home() {
             )}
 
             <div className="w-screen h-full">
+                {/* Navbar */}
+                <Navbar />
                 {/* Hero Section */}
-                <HeadingTextAnimation />
                 <div
                     ref={homeRef}
-                    className="home-bg w-screen h-screen flex items-center justify-center"
+                    className="home-bg w-screen h-[100vh] flex items-center justify-center"
                 ></div>
+                <JobTextAnimation/>
+                <HeadingTextAnimation />
 
                 {/* Content berikutnya */}
                 <div className="min-h-screen text-white p-10">

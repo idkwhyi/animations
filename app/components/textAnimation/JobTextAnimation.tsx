@@ -5,8 +5,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function HeadingTextAnimation() {
-    const headingRef = useRef(null);
+export default function JobTextAnimation() {
+    const jobRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -25,8 +25,8 @@ export default function HeadingTextAnimation() {
     }, []);
 
     useLayoutEffect(() => {
-        if (!headingRef.current || !isClient) return;
-        const currentHeading = headingRef.current;
+        if (!jobRef.current || !isClient) return;
+        const currentHeading = jobRef.current;
         
         // Set initial position to bottom center with full font size
         gsap.set(currentHeading, {
@@ -39,17 +39,20 @@ export default function HeadingTextAnimation() {
         ScrollTrigger.refresh();
 
         const animation = gsap.to(currentHeading, {
-            y: -window.innerHeight * 0.47, // End at top center
+            y: -window.innerHeight * 0.47,
+            x: -window.innerWidth * 0.5 ,
             scale: isMobile ? 0.32 : 0.1,
             transformOrigin: 'center center',
             ease: 'none',
+            opacity: 0,
+            rotate: -15,
             scrollTrigger: {
                 trigger: document.body,
                 start: 'top top',
-                end: '+=100vh', // Animation completes within first viewport
+                end: '+=10vh', // Animation completes within first viewport
                 scrub: 1,
                 invalidateOnRefresh: true,
-                markers: false,
+                markers: true,
                 onRefresh: () => {
                     // Recalculate positions on refresh
                     gsap.set(currentHeading, {
@@ -78,14 +81,14 @@ export default function HeadingTextAnimation() {
     return (
         <>            
             <div
-                ref={headingRef}
+                ref={jobRef}
                 className={`
-                    fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                    text-[#FF0B55] font-bold font-sans z-50 pointer-events-none
-                    flex items-center justify-center
+                    fixed top-[10%] left-[20%] -translate-x-1/2 -translate-y-1/2
+                    text-white font-bold font-sans z-50 pointer-events-none
+                    flex items-center justify-center text-center
                     ${isMobile 
-                        ? 'text-[20vw] leading-[0.8]' 
-                        : 'text-[16vw] leading-[1]'
+                        ? 'text-[8vw] leading-[0.8]' 
+                        : 'text-[4vw] leading-[1]'
                     }
                 `}
                 style={{
@@ -94,7 +97,7 @@ export default function HeadingTextAnimation() {
                     perspective: '1000px'
                 }}
             >
-                Matthew
+                Software<br/>Engineer
             </div>
         </>
     );

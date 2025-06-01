@@ -3,10 +3,14 @@ import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Type untuk GSAP animation
+type GSAPTween = gsap.core.Tween;
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function JobTextAnimation() {
-    const jobRef = useRef(null);
+    const jobRef = useRef<HTMLDivElement>(null);
+    const scrollAnimationRef = useRef<GSAPTween | null>(null);
     const [isClient, setIsClient] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
@@ -28,43 +32,72 @@ export default function JobTextAnimation() {
         if (!jobRef.current || !isClient) return;
         const currentHeading = jobRef.current;
         
-        // Set initial position to bottom center with full font size
+        // Set initial state untuk intro animation (hidden dan di bawah)
         gsap.set(currentHeading, {
-            y: window.innerHeight * 0.3, // Start at bottom
-            scale: 1, // Start at full size
+            y: isMobile ? window.innerHeight * 0.6 : window.innerHeight * 0.4,
+            opacity: 0,
+            scale: 1,
             transformOrigin: 'center center'
         });
         
-        // Refresh ScrollTrigger untuk memastikan kalkulasi yang tepat
-        ScrollTrigger.refresh();
+        // Timeline untuk intro animation
+        const introTimeline = gsap.timeline();
+        
+        // Intro animation: slide up from bottom dengan fade in
+        introTimeline.to(currentHeading, {
+            y: window.innerHeight * 0.3, // Final position untuk start scroll animation
+            opacity: 1,
+            duration: isMobile ? 1.5 : 1.2,
+            ease: 'power3.out',
+            delay: 0.5 // Delay sebelum animasi dimulai
+        });
+        
+        // Setelah intro selesai, setup scroll animation
+        introTimeline.call(() => {
+            // Refresh ScrollTrigger untuk memastikan kalkulasi yang tepat
+            ScrollTrigger.refresh();
 
-        const animation = gsap.to(currentHeading, {
-            y: -window.innerHeight * 0.47,
-            x: -window.innerWidth * 0.5 ,
-            scale: isMobile ? 0.32 : 0.1,
-            transformOrigin: 'center center',
-            ease: 'none',
-            opacity: 0,
-            rotate: -10,
-            scrollTrigger: {
-                trigger: document.body,
-                start: 'top top',
-                end: '+=10vh', // Animation completes within first viewport
-                scrub: 1,
-                invalidateOnRefresh: true,
-                markers: false,
-                onRefresh: () => {
-                    // Recalculate positions on refresh
-                    gsap.set(currentHeading, {
-                        y: window.innerHeight * 0.3,
-                        scale: 1
-                    });
+            const scrollAnimation = gsap.to(currentHeading, {
+                y: -window.innerHeight * 0.47,
+                x: -window.innerWidth * 0.5,
+                scale: isMobile ? 0.32 : 0.1,
+                transformOrigin: 'center center',
+                ease: 'none',
+                opacity: 0,
+                rotate: -10,
+                scrollTrigger: {
+                    trigger: document.body,
+                    start: 'top top',
+                    end: '+=10vh', // Animation completes within first viewport
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                    markers: false,
+                    onRefresh: () => {
+                        // Recalculate positions on refresh
+                        gsap.set(currentHeading, {
+                            y: window.innerHeight * 0.3,
+                            scale: 1,
+                            opacity: 1
+                        });
+                    }
                 }
-            }
+            });
+
+            // Store scroll animation di ref untuk cleanup
+            scrollAnimationRef.current = scrollAnimation;
         });
 
         return () => {
-            animation.kill();
+            // Cleanup intro timeline
+            introTimeline.kill();
+            
+            // Cleanup scroll animation jika ada
+            if (scrollAnimationRef.current) {
+                scrollAnimationRef.current.kill();
+                scrollAnimationRef.current = null;
+            }
+            
+            // Cleanup ScrollTrigger instances
             ScrollTrigger.getAll().forEach((trigger) => {
                 if (trigger.trigger === document.body || trigger.trigger === currentHeading) {
                     trigger.kill();

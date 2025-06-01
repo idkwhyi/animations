@@ -32,6 +32,7 @@ export default function HeadingTextAnimation() {
         gsap.set(currentHeading, {
             y: window.innerHeight * 0.3, // Start at bottom
             scale: 1, // Start at full size
+            
             transformOrigin: 'center center'
         });
         
@@ -39,17 +40,19 @@ export default function HeadingTextAnimation() {
         ScrollTrigger.refresh();
 
         const animation = gsap.to(currentHeading, {
-            y: -window.innerHeight * 0.47, // End at top center
+            x: isMobile ? -window.innerWidth * 0.3 : 0, 
+            y: isMobile ? -window.innerHeight * 0.47 : -window.innerHeight * 0.47, // End at top center
             scale: isMobile ? 0.32 : 0.1,
             transformOrigin: 'center center',
             ease: 'none',
+            // marker: true, // Removed invalid property
             scrollTrigger: {
                 trigger: document.body,
                 start: 'top top',
-                end: '+=100vh', // Animation completes within first viewport
+                end: '+=100vh +=60vh', // Animation completes within first viewport
                 scrub: 1,
                 invalidateOnRefresh: true,
-                markers: false,
+                markers: true,
                 onRefresh: () => {
                     // Recalculate positions on refresh
                     gsap.set(currentHeading, {

@@ -32,7 +32,6 @@ export default function HeadingTextAnimation() {
         gsap.set(currentHeading, {
             y: window.innerHeight * 0.3, // Start at bottom
             scale: 1, // Start at full size
-            
             transformOrigin: 'center center'
         });
         
@@ -52,7 +51,7 @@ export default function HeadingTextAnimation() {
                 end: '+=100vh +=60vh', // Animation completes within first viewport
                 scrub: 1,
                 invalidateOnRefresh: true,
-                markers: true,
+                markers: false,
                 onRefresh: () => {
                     // Recalculate positions on refresh
                     gsap.set(currentHeading, {
@@ -84,8 +83,8 @@ export default function HeadingTextAnimation() {
                 ref={headingRef}
                 className={`
                     fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                    text-[#FF0B55] font-bold font-sans z-50 pointer-events-none
-                    flex items-center justify-center
+                    text-[#FF0B55] z-50 pointer-events-none
+                    flex items-center justify-center fontsora font-[900]
                     ${isMobile 
                         ? 'text-[20vw] leading-[0.8]' 
                         : 'text-[16vw] leading-[1]'
@@ -97,7 +96,7 @@ export default function HeadingTextAnimation() {
                     perspective: '1000px'
                 }}
             >
-                MATTHEW
+                Matthew
             </div>
         </>
     );

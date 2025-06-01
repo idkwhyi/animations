@@ -11,9 +11,6 @@ const config = {
             animation: {
                 floatUp: 'floatUp 1s ease-in-out infinite',
             },
-            fontFamily: {
-                sans: ['var(--font-anton)'],
-            },
         },
     },
     plugins: ["@tailwindcss/postcss"],

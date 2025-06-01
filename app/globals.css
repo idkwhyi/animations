@@ -1,5 +1,40 @@
 @import 'tailwindcss';
 
+@font-face {
+    font-family: 'SoraVar';
+    src: url('/fonts/Sora/Sora-VariableFont_wght.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'OpenSansVar';
+    src: url('/public/fonts/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf')
+        format('truetype');
+    font-weight: 300 800;
+    font-stretch: 75% 100%; /* width axis */
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Anton';
+    src: url('/fonts/anton/Anton-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+
+.fontsora {
+    font-family: 'SoraVar', sans-serif;
+}
+
+.fontopensans {
+    font-family: 'OpenSansVar', sans-serif;
+}
+
+.fontanton {
+    font-family: 'Anton', sans-serif;
+}
+
 :root {
     --background: #ffffff;
     --foreground: #171717;
@@ -19,7 +54,8 @@
     }
 }
 
-html, body {
+html,
+body {
     background: var(--background);
     color: var(--foreground);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
